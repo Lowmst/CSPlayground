@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "TurnTableGame (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "TurnTableGame (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
