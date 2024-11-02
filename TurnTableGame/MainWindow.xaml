@@ -44,7 +44,7 @@
         </Grid>
 
         <Border Grid.Row="1" Grid.Column="0" Background="White" CornerRadius="8">
-            <Canvas x:Name="Canvas" />
+            <Canvas x:Name="Canvas" SizeChanged="Canvas_SizeChanged"/>
         </Border>
 
        

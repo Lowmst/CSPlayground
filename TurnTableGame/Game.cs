@@ -23,6 +23,8 @@ namespace TurnTableGame
             this.Canvas = Canvas;
 
             this.ContestantCount = ContestantCount;
+
+            double radius;
             for (int i = 0; i < ContestantCount; i++)
             {
                 contestants.Add(new Contestant() { Name = $"玩家{i + 1}", TotalHitPoint = HitPoint ,CurrentHitPoint = HitPoint});
