@@ -28,19 +28,22 @@ namespace TurnTableGame
         private void Start_Click(object sender, RoutedEventArgs e)
         {
 
-            elements.Clear(); 
+            elements.Clear();
+            MsgList.Items.Clear();
+            Canvas.Children.Clear();
 
-            game = new Game(HitPoint, ContestantCount, Canvas);
+
+            game = new Game(HitPoint, ContestantCount, Canvas, this, grid);
             MsgList.Items.Add($"{ContestantCount}, {HitDamage}, {HitPoint}");
             Restart.IsEnabled = true;
             Shot.IsEnabled = true;
+            //grid.Visibility = Visibility.Collapsed; 
 
+            //var rect = new Rectangle { Width = 50, Height = 50, Fill = new SolidColorBrush(Colors.Blue) };
+            //var rect1 = new Rectangle { Width = 10, Height = 10, Fill = new SolidColorBrush(Colors.Red) };
 
-            var rect = new Rectangle { Width = 50, Height = 50, Fill = new SolidColorBrush(Colors.Blue) };
-            var rect1 = new Rectangle { Width = 10, Height = 10, Fill = new SolidColorBrush(Colors.Red) };
-
-            Draw(rect1, 0, 0);
-            Draw(rect, 10, 10);
+            //Draw(rect1, 0, 0);
+            //Draw(rect, 10, 10);
 
         }
 
