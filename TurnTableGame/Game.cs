@@ -15,14 +15,14 @@ namespace TurnTableGame
         
         
         List<Contestant> contestants = new List<Contestant>();
-        List<(double, double)> positions = new List<(double, double)>();
+        List<double> angles = new List<double>();
 
-        private MainWindow mainWindow;
-        public Grid grid;
+        private MainWindow mainWindow; // 传入窗口对象以使用窗口Draw方法
+        public Grid grid; // 传入窗口根对象
 
-        public Game(int HitPoint, int ContestantCount, Canvas Canvas, MainWindow mainWindow, Grid grid)
+        public Game(int HitPoint, int ContestantCount, MainWindow mainWindow, Grid grid, Canvas canvas)
         {
-            this.Canvas = Canvas;
+            this.Canvas = canvas;
 
             this.ContestantCount = ContestantCount;
 
@@ -30,28 +30,37 @@ namespace TurnTableGame
 
             this.grid = grid;
 
-            double radius = (Canvas.ActualHeight > Canvas.ActualWidth ? Canvas.ActualWidth : Canvas.ActualHeight)/2;
-
-            Utils.MsgBox($"{radius}", grid.XamlRoot);
-
             for (int i = 0; i < ContestantCount; i++)
             {
-                contestants.Add(new Contestant() { Name = $"玩家{i + 1}", TotalHitPoint = HitPoint ,CurrentHitPoint = HitPoint});
+                contestants.Add(new Contestant(HitPoint, $"玩家{i + 1}"));
 
-                double x =  0.9*radius * Math.Cos(i * 2 * Math.PI / ContestantCount);
-                double y =  0.9*radius * Math.Sin(i * 2 * Math.PI / ContestantCount);
+                //var rect = new Rectangle() { Width = 10, Height = 10, Fill = new SolidColorBrush(Colors.Blue) };
+                angles.Add(i * 2 * Math.PI / ContestantCount);
+                //positions.Add((x, y));
 
-                var rect = new Rectangle() { Width = 10, Height = 10, Fill = new SolidColorBrush(Colors.Blue) };
-
-                positions.Add((x, y));
-
-                mainWindow.Draw(rect, x, y);
+                //mainWindow.Draw(rect, i * 2 * Math.PI / ContestantCount);
             }
+
+            Draw();
         }
 
         public void Shot()
         {
+            // ... //
+            Draw();
+        }
 
+        public void Draw()
+        {
+            // todo, 绘制contestants, gun //
+            Canvas.Children.Clear();
+            double radiusRate = 0.9;
+            for (int i = 0;i < ContestantCount; i++)
+            {
+                mainWindow.Draw(contestants[i].avatar, angles[i], radiusRate,0);
+                mainWindow.Draw(contestants[i].hitpanel, angles[i], radiusRate, -20);
+            }
+            mainWindow.Draw(new Rectangle() { Width = 10, Height = 10, Fill = new SolidColorBrush(Colors.Red) }, 0, 0,0);
         }
     }
 }

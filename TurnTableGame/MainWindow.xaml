@@ -35,9 +35,9 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <NumberBox SmallChange="1" SpinButtonPlacementMode="Inline" Value="0" Header="参赛人数" Grid.RowSpan="2" Grid.Column="0" Width="150" ValueChanged="ContestantCount_ValueChanged"/>
-            <NumberBox SmallChange="1" SpinButtonPlacementMode="Inline" Value="0" Header="子弹伤害" Grid.RowSpan="2" Grid.Column="1" Width="150" ValueChanged="HitDamage_ValueChanged"/>
-            <NumberBox SmallChange="1" SpinButtonPlacementMode="Inline" Value="0" Header="玩家生命值" Grid.RowSpan="2" Grid.Column="2" Width="150" ValueChanged="HitPoint_ValueChanged"/>
+            <NumberBox SmallChange="1" SpinButtonPlacementMode="Inline" Value="5" Header="参赛人数" Grid.RowSpan="2" Grid.Column="0" Width="150" ValueChanged="ContestantCount_ValueChanged"/>
+            <NumberBox SmallChange="1" SpinButtonPlacementMode="Inline" Value="25" Header="子弹伤害" Grid.RowSpan="2" Grid.Column="1" Width="150" ValueChanged="HitDamage_ValueChanged"/>
+            <NumberBox SmallChange="1" SpinButtonPlacementMode="Inline" Value="100" Header="玩家生命值" Grid.RowSpan="2" Grid.Column="2" Width="150" ValueChanged="HitPoint_ValueChanged"/>
             <Button x:Name="Restart" Click="Restart_Click" Grid.Row="0" Grid.Column="3" IsEnabled="False" Width="100">重新开始</Button>
             <Button x:Name="Start" Click="Start_Click" Grid.Row="1" Grid.Column="3" Width="100">开始游戏</Button>
             <Button x:Name="Shot" Click="Shot_Click" Grid.Column="4" Grid.RowSpan="2" VerticalAlignment="Stretch" IsEnabled="False" Width="100">开枪</Button>
