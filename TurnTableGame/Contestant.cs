@@ -12,22 +12,18 @@ namespace TurnTableGame
     {
         public int totalHitPoint;
         public int CurrentHitPoint { get; set; }
-        public String name;
-        //public String Avatar { get; set; }
+        public TextBlock name;
 
-        //public UIElement
-
-        public UIElement avatar = new Rectangle() { Width = 10, Height = 10, Fill = new SolidColorBrush(Colors.Blue) };
+        public UIElement avatar = new Rectangle() { Width = 10, Height = 10, Fill = new SolidColorBrush(Colors.Green) };
         public TextBlock hitpanel = new TextBlock();
 
         public Contestant(int totalHitPoint, String name)
         {
-            //this.CurrentHitPoint = this.TotalHitPoint;
             this.totalHitPoint = totalHitPoint;
             this.CurrentHitPoint = totalHitPoint;
-            //this.graph.Children.Add(new TextBlock() { Text = $"{CurrentHitPoint}/{totalHitPoint}"});
+
             this.hitpanel.Text = $"{CurrentHitPoint}/{totalHitPoint}";
-            //this.graph.Children.Add(new Rectangle() { Width = 10, Height = 10, Fill = new SolidColorBrush(Colors.Blue) });
+            this.name = new TextBlock() { Text = name};
         }
 
         public void Hurt(int hit)

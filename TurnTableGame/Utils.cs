@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace TurnTableGame
 {
-
     public static class Utils
     {
         public static async void MsgBox(String content, XamlRoot xamlRoot)
@@ -20,15 +19,5 @@ namespace TurnTableGame
             dialog.CloseButtonText = "OK";
             var result = await dialog.ShowAsync();
         }
-
-        //public static void MsgConsoleAdd(String Content, ListView listView)
-        //{
-        //    listView.Items.Add(Content);
-        //}
-
-        //public static void MsgConsoleCls(ListView listView)
-        //{
-        //    listView.Items.Clear();
-        //}
     }
 }

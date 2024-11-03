@@ -17,7 +17,6 @@ namespace TurnTableGame
         private int HitPoint;
         private int HitDamage;
 
-        //List<(UIElement, double x, double y)> elements_b = new List<(UIElement, double x, double y)> ();
         List<(UIElement, double, double, double)> elements = new List<(UIElement, double, double, double)>();
 
 
@@ -35,24 +34,14 @@ namespace TurnTableGame
             MsgList.Items.Clear();
             Canvas.Children.Clear();
 
-
             game = new Game(HitPoint, ContestantCount, this, grid, Canvas);
-            //MsgList.Items.Add($"{ContestantCount}, {HitDamage}, {HitPoint}");
             Restart.IsEnabled = true;
             Shot.IsEnabled = true;
-            //grid.Visibility = Visibility.Collapsed; 
-
-            //var rect = new Rectangle { Width = 50, Height = 50, Fill = new SolidColorBrush(Colors.Blue) };
-            //var rect1 = new Rectangle { Width = 10, Height = 10, Fill = new SolidColorBrush(Colors.Red) };
-
-            //Draw(rect1, 0, 0);
-            //Draw(rect, 10, 10);
 
         }
 
         private void Shot_Click(object sender, RoutedEventArgs e)
         {
-            Canvas.Children.Clear();
             game.Shot();
         }
 
@@ -65,23 +54,9 @@ namespace TurnTableGame
             elements.Clear();
         }
 
-        
-
-        //public void Draw(UIElement item, double x, double y)
-        //{
-        //    //elements.Add((item, x, y));
-
-        //    double centerX = Canvas.ActualWidth / 2;
-        //    double centerY = Canvas.ActualHeight / 2;
-
-        //    Canvas.SetLeft(item, x + centerX);
-        //    Canvas.SetTop(item, y + centerY);
-
-        //    Canvas.Children.Add(item);
-        //}
-
         public void Draw( UIElement item, double angle, double radiusRate, double offset)
         {
+            //item.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
             elements.Add((item, angle, radiusRate, offset));
 
             double radius = (Canvas.ActualHeight > Canvas.ActualWidth ? Canvas.ActualWidth : Canvas.ActualHeight) / 2;
@@ -95,7 +70,6 @@ namespace TurnTableGame
             Canvas.SetTop(item, y + centerY + offset);
 
             Canvas.Children.Add(item);
-            //Draw(item, x, y);
         }
 
         private void ContestantCount_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
@@ -117,8 +91,6 @@ namespace TurnTableGame
         {
 
             double radius = (Canvas.ActualHeight > Canvas.ActualWidth ? Canvas.ActualWidth : Canvas.ActualHeight) / 2;
-            //double x = radius * Math.Cos(angle);
-            //double y = radius * Math.Sin(angle);
 
             double centerX = Canvas.ActualWidth / 2;
             double centerY = Canvas.ActualHeight / 2;
