@@ -34,7 +34,7 @@ namespace TurnTableGame
             MsgList.Items.Clear();
             Canvas.Children.Clear();
 
-            game = new Game(HitPoint, ContestantCount, this, grid, Canvas);
+            game = new Game(ContestantCount,HitDamage, HitPoint,  this, grid, Canvas);
             Restart.IsEnabled = true;
             Shot.IsEnabled = true;
 

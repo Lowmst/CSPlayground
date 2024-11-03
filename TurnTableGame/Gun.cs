@@ -21,7 +21,6 @@ namespace TurnTableGame
             RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5)
         };
         
-            //
         public void Rotate(double angle)
         {
             //icon.Child = new FontIcon() { Glyph = "\uE72A" , RenderTransformOrigin  = new Windows.Foundation.Point(0.5,0.5)};
