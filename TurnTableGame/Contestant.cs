@@ -14,7 +14,11 @@ namespace TurnTableGame
     {
         public int totalHitPoint;
         public int CurrentHitPoint { get; set; }
+
+        public bool Survive {  get; set; } = true;
+
         public TextBlock name;
+        public double Angle { get; set; }
 
         public Rectangle avatar = new Rectangle() { Width = 10, Height = 10, Fill = new SolidColorBrush(Colors.Green) };
         public TextBlock hitpanel = new TextBlock();
@@ -28,19 +32,31 @@ namespace TurnTableGame
             this.name = new TextBlock() { Text = name};
         }
 
-        public void Hurt(int hit)
+        public async void Hurt(int hit)
         {
             this.CurrentHitPoint -= hit;
+            if (this.CurrentHitPoint <= 0)
+            { 
+                this.CurrentHitPoint = 0;
+            }
             this.hitpanel.Text = $"{CurrentHitPoint}/{totalHitPoint}";
+            this.avatar.Fill = new SolidColorBrush(Colors.Red);
+            await Task.Delay(2000);
         }
 
-        //public async void Shock()
-        //{
-        //    this.avatar.Fill = new SolidColorBrush(Colors.Blue);
-        //    //Thread.Sleep(400);
-        //    await Task.Delay(400);
-        //    this.avatar.Fill = new SolidColorBrush(Colors.Green);
+        public void Shock()
+        {
+            this.avatar.Fill = new SolidColorBrush(Colors.Blue);
+        }
 
-        //}
+        public void Die()
+        {
+            this.Survive = false;
+        }
+
+        public void Recovery()
+        {
+            this.avatar.Fill = new SolidColorBrush(Colors.Green);
+        }
     }
 }

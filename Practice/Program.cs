@@ -18,11 +18,13 @@
             //Console.WriteLine(list.Value(4));
             //Console.WriteLine(list.ToString());
 
-            var rand = new Random();
-            for (int i = 0; i < 100; i++)
-            {
-                Console.WriteLine(rand.Next(3));
-            }
+            //var rand = new Random();
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    Console.WriteLine(rand.Next(3));
+            //}
+
+            Console.WriteLine(8 % 8);
         }
     }
 }
