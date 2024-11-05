@@ -82,6 +82,7 @@ namespace TurnTableGame
 
                 if (currentContestant.CurrentHitPoint == 0)
                 {
+                    msgList.Items.Add($"{currentContestant.name.Text}被淘汰了！");
                     var currentIndex = contestants.IndexOf(currentContestant);
                     contestants.Remove(currentContestant);
                     contestantNum--;
@@ -101,6 +102,11 @@ namespace TurnTableGame
 
                 gun.Rotate(nextContestant.Angle);
 
+                if(contestantNum == 1)
+                {
+                    Utils.MsgBox($"{nextContestant.name.Text}取得了游戏胜利！！", grid.XamlRoot);
+                    mainWindow.Finish();
+                }
 
             }
             finally
