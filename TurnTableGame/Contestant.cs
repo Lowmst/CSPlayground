@@ -32,7 +32,7 @@ namespace TurnTableGame
             this.name = new TextBlock() { Text = name};
         }
 
-        public async void Hurt(int hit)
+        public void Hurt(int hit)
         {
             this.CurrentHitPoint -= hit;
             if (this.CurrentHitPoint <= 0)
@@ -41,7 +41,7 @@ namespace TurnTableGame
             }
             this.hitpanel.Text = $"{CurrentHitPoint}/{totalHitPoint}";
             this.avatar.Fill = new SolidColorBrush(Colors.Red);
-            await Task.Delay(2000);
+            //await Task.Delay(2000);
         }
 
         public void Shock()

@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Reflection.Metadata;
+using System.Threading.Tasks;
 
 namespace TurnTableGame
 {
@@ -40,9 +41,9 @@ namespace TurnTableGame
 
         }
 
-        private void Shot_Click(object sender, RoutedEventArgs e)
+        private async void Shot_Click(object sender, RoutedEventArgs e)
         {
-            game.Shot();
+            await game.Shot();
         }
 
         private void Restart_Click(object sender, RoutedEventArgs e)

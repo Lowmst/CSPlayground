@@ -18,13 +18,15 @@ namespace TurnTableGame
 
         private int contestantCount;
 
+        private bool isProcessing = false;
+
         Canvas Canvas { get; set; }
         ListView msgList;
 
         List<Contestant> contestants = new List<Contestant>();
         //List<double> angles = new List<double>();
         Gun gun = new Gun() { Angle = 0 };
-        int rotatedCount;
+        int rotatedCount = 0;
 
         private MainWindow mainWindow; // 传入窗口对象以使用窗口Draw方法
         public Grid grid; // 传入窗口根对象
@@ -42,7 +44,7 @@ namespace TurnTableGame
             this.grid = grid;
             this.msgList = msgList;
 
-            this.rotatedCount = 0;
+            //this.rotatedCount = 0;
 
             for (int i = 0; i < contestantCount; i++)
             {
@@ -55,49 +57,56 @@ namespace TurnTableGame
             Draw();
         }
 
-        public void Shot()
+        public async Task Shot()
         {
-
-            while (!contestants[rotatedCount % contestantNum].Survive)
+            if (isProcessing) return;
+            isProcessing = true;
+            try
             {
-                this.rotatedCount++;
-            }
+                var currentContestant = contestants[rotatedCount % contestantNum];
+                var nextContestant = contestants[(rotatedCount + 1) % contestantNum];
 
-            var currentContestant = contestants[rotatedCount % contestantNum];
+                currentContestant.Shock();
 
-            var rand = new Random();
-            if (rand.Next(3) == 0)
-            {
-                currentContestant.Hurt(this.hitDamage);
+                var rand = new Random();
+                if (rand.Next(3) == 0)
+                {
+                    currentContestant.Hurt(this.hitDamage);
+                }
+
+                await Task.Delay(500);
+
+                currentContestant.Recovery();
+
+                rotatedCount++;
 
                 if (currentContestant.CurrentHitPoint == 0)
                 {
-                    currentContestant.Die();
-                    contestantCount--;
+                    var currentIndex = contestants.IndexOf(currentContestant);
+                    contestants.Remove(currentContestant);
+                    contestantNum--;
+                    //rotatedCount--;
+                    rotatedCount = currentIndex;
 
-                    double baseAngle = 2 * Math.PI / contestantCount;
+                    //rotatedCount = currentIndex - 1;
+                    //if (rotatedCount < 0) rotatedCount = contestantNum - 1;
 
-
-                    int angleCount = 0;
-                    while(angleCount!=contestantCount)
+                    for (int i = 0; i < contestantNum; i++)
                     {
-
+                        contestants[i].Angle = i * 2 * Math.PI / contestantNum;
                     }
 
                     Draw();
                 }
-                else
-                {
-                    currentContestant.Recovery();
-                }
+
+                gun.Rotate(nextContestant.Angle);
+
+
             }
-            else
+            finally
             {
-                currentContestant.Shock();
+                isProcessing = false;
             }
-
-
-            
         }
 
         //public async void Shot()
@@ -180,7 +189,7 @@ namespace TurnTableGame
         {
             Canvas.Children.Clear();
             double radiusRate = 0.9;
-            for (int i = 0; i < contestantCount; i++)
+            for (int i = 0; i < contestantNum; i++)
             {
                 mainWindow.Draw(contestants[i].avatar, contestants[i].Angle, radiusRate, 0);
                 mainWindow.Draw(contestants[i].hitpanel, contestants[i].Angle, radiusRate, -20);
