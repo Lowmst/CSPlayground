@@ -14,7 +14,7 @@ namespace TurnTableGame
     public sealed partial class MainWindow : Window
     {
 
-        private int ContestantCount;
+        private int ContestantNum;
         private int HitPoint;
         private int HitDamage;
 
@@ -35,7 +35,7 @@ namespace TurnTableGame
             MsgList.Items.Clear();
             Canvas.Children.Clear();
 
-            game = new Game(ContestantCount,HitDamage, HitPoint,  this, grid, Canvas, MsgList);
+            game = new Game(ContestantNum, HitDamage, HitPoint, this, Canvas);
             Restart.IsEnabled = true;
             Shot.IsEnabled = true;
 
@@ -57,7 +57,6 @@ namespace TurnTableGame
 
         public void Draw( UIElement item, double angle, double radiusRate, double offset)
         {
-            //item.RenderTransformOrigin = new Windows.Foundation.Point(0.5, 0.5);
             elements.Add((item, angle, radiusRate, offset));
 
             double radius = (Canvas.ActualHeight > Canvas.ActualWidth ? Canvas.ActualWidth : Canvas.ActualHeight) / 2;
@@ -78,9 +77,25 @@ namespace TurnTableGame
             Shot.IsEnabled = false;
         }
 
+
+        public async void MsgBox(String content)
+        {
+            ContentDialog dialog = new ContentDialog();
+            dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+            dialog.XamlRoot = grid.XamlRoot;
+            dialog.Content = content;
+            dialog.CloseButtonText = "OK";
+            var result = await dialog.ShowAsync();
+        }
+
+        public void AddMsg(String content)
+        {
+            MsgList.Items.Add(content);
+        }
+
         private void ContestantCount_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)
         {
-            this.ContestantCount = (int)sender.Value;
+            this.ContestantNum = (int)sender.Value;
         }
 
         private void HitDamage_ValueChanged(NumberBox sender, NumberBoxValueChangedEventArgs args)

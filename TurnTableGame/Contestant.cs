@@ -36,7 +36,7 @@ namespace TurnTableGame
         {
             this.CurrentHitPoint -= hit;
             if (this.CurrentHitPoint <= 0)
-            { 
+            {
                 this.CurrentHitPoint = 0;
             }
             this.hitpanel.Text = $"{CurrentHitPoint}/{totalHitPoint}";
@@ -49,10 +49,6 @@ namespace TurnTableGame
             this.avatar.Fill = new SolidColorBrush(Colors.Blue);
         }
 
-        public void Die()
-        {
-            this.Survive = false;
-        }
 
         public void Recovery()
         {

@@ -12,51 +12,43 @@ namespace TurnTableGame
 {
     public class Game
     {
+        private MainWindow mainWindow;
+        private Canvas canvas;
+
         private int contestantNum;
         private int hitDamage;
         private int hitPoint;
 
-        private int contestantCount;
-
         private bool isProcessing = false;
 
-        Canvas Canvas { get; set; }
-        ListView msgList;
+        
 
-        List<Contestant> contestants = new List<Contestant>();
-        //List<double> angles = new List<double>();
-        Gun gun = new Gun() { Angle = 0 };
-        int rotatedCount = 0;
+        
 
-        private MainWindow mainWindow; // 传入窗口对象以使用窗口Draw方法
-        public Grid grid; // 传入窗口根对象
+        private List<Contestant> contestants = new List<Contestant>();
 
-        public Game(int contestantNum, int hitDamage, int hitPoint, MainWindow mainWindow, Grid grid, Canvas canvas, ListView msgList)
+        public Game(int contestantNum, int hitDamage, int hitPoint, MainWindow mainWindow, Canvas canvas)
         {
+            this.mainWindow = mainWindow;
+            this.canvas = canvas;
+            
             this.contestantNum = contestantNum;
             this.hitDamage = hitDamage;
             this.hitPoint = hitPoint;
 
-            this.contestantCount = this.contestantNum;
-
-            this.mainWindow = mainWindow;
-            this.Canvas = canvas;
-            this.grid = grid;
-            this.msgList = msgList;
-
-            //this.rotatedCount = 0;
-
-            for (int i = 0; i < contestantCount; i++)
+            for (int i = 0; i < this.contestantNum; i++)
             {
-                contestants.Add(new Contestant(hitPoint, $"玩家{i + 1}") { Angle = i * 2 * Math.PI / contestantCount });
-
-                //angles.Add(i * 2 * Math.PI / contestantCount);
-
+                this.contestants.Add(new Contestant(hitPoint, $"玩家{i + 1}") { Angle = i * 2 * Math.PI / this.contestantNum });
             }
 
             Draw();
         }
 
+
+
+        private Gun gun = new Gun() { Angle = 0 };
+        private int rotatedCount = 0;
+        
         public async Task Shot()
         {
             if (isProcessing) return;
@@ -82,7 +74,7 @@ namespace TurnTableGame
 
                 if (currentContestant.CurrentHitPoint == 0)
                 {
-                    msgList.Items.Add($"{currentContestant.name.Text}被淘汰了！");
+                    mainWindow.AddMsg($"{currentContestant.name.Text}被淘汰了！");
                     var currentIndex = contestants.IndexOf(currentContestant);
                     contestants.Remove(currentContestant);
                     contestantNum--;
@@ -104,7 +96,7 @@ namespace TurnTableGame
 
                 if(contestantNum == 1)
                 {
-                    Utils.MsgBox($"{nextContestant.name.Text}取得了游戏胜利！！", grid.XamlRoot);
+                    mainWindow.MsgBox($"{nextContestant.name.Text}取得了游戏胜利！！");
                     mainWindow.Finish();
                 }
 
@@ -191,9 +183,9 @@ namespace TurnTableGame
 
 
 
-        public void Draw()
+        private void Draw()
         {
-            Canvas.Children.Clear();
+            this.canvas.Children.Clear();
             double radiusRate = 0.9;
             for (int i = 0; i < contestantNum; i++)
             {
