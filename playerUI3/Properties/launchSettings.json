@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "playerUI3 (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "playerUI3 (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

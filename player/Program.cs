@@ -16,17 +16,17 @@ namespace player
                 return;
             }
 
-            var wasapiOut = new WasapiOut();
-            var audioFile = new AudioFileReader(args[0]);
-            wasapiOut.Init(audioFile);
-            wasapiOut.Play();
-
-            while (wasapiOut.PlaybackState == PlaybackState.Playing)
+            using (var wasapiOut = new WasapiOut(AudioClientShareMode.Exclusive, 100))
+            using (var audioFile = new AudioFileReader(args[0]))
             {
-                Task.Delay(1);
+                wasapiOut.Init(audioFile);
+                wasapiOut.Play();
+
+                while (wasapiOut.PlaybackState == PlaybackState.Playing)
+                {
+                    Task.Delay(100).Wait();
+                }
             }
         }
-
-
     }
 }
