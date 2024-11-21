@@ -10,8 +10,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+
+using NAudio;
+using NAudio.CoreAudioApi;
+using NAudio.MediaFoundation;
+using NAudio.Wave;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -24,31 +30,36 @@ namespace playerUI3
     public sealed partial class MainWindow : Window
     {
         string audioFileName = "";
+        
 
         public MainWindow()
         {
             this.InitializeComponent();
         }
 
-        private void myButton_Click(object sender, RoutedEventArgs e)
+        private async void myButton_Click(object sender, RoutedEventArgs e)
         {
             //myButton.Content = "Clicked";
 
-            var picker = new Windows.Storage.Pickers.FileOpenPicker();
-            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            var filepicker = new FilePicker(this);
 
-            WinRT.Interop.InitializeWithWindow.Initialize(picker, hWnd);
-            picker.ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail;
-            picker.FileTypeFilter.Add("*");
+            audioFileName = filepicker.GetFile(new string[] { ".mp3", ".wav", ".flac", ".m4a" });
+            FileName.Text = audioFileName;
 
-            var file = picker.PickSingleFileAsync().AsTask().Result;
-            if (file != null)
+            await Task.Run(() =>
             {
-                this.audioFileName = file.Path;
-                //myButton.Content = audioFileName;
-            }
+                using (var wasapiOut = new WasapiOut())
+                using (var audioFile = new AudioFileReader(audioFileName))
+                {
+                    wasapiOut.Init(audioFile);
+                    wasapiOut.Play();
 
-            FileName.Text = this.audioFileName;
+                    while (wasapiOut.PlaybackState == PlaybackState.Playing)
+                    {
+                        Task.Delay(100).Wait();
+                    }
+                }
+            });
         }
     }
 }
