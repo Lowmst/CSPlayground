@@ -29,37 +29,103 @@ namespace playerUI3
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        string audioFileName = "";
-        
+        string audioFileName;
+        AudioFileReader audioFile;
+        WasapiOut wasapiOut;
+
+
 
         public MainWindow()
         {
-            this.InitializeComponent();
+            this.InitializeComponent();          
         }
 
-        private async void myButton_Click(object sender, RoutedEventArgs e)
-        {
-            //myButton.Content = "Clicked";
+        //private async void myButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //myButton.Content = "Clicked";
 
+        //    var filepicker = new FilePicker(this);
+
+        //    audioFileName = filepicker.GetFile(new string[] { "*" });
+        //    FileName.Text = audioFileName;
+
+        //    await Task.Run(() =>
+        //    {
+        //        using (var wasapiOut = new WasapiOut())
+        //        using (var audioFile = new AudioFileReader(audioFileName))
+        //        {
+        //            wasapiOut.Init(audioFile);
+        //            wasapiOut.Play();
+
+        //            while (wasapiOut.PlaybackState == PlaybackState.Playing)
+        //            {
+        //                Task.Delay(100).Wait();
+        //            }
+        //        }
+        //    });
+        //}
+
+        private void FilePick_Click(object sender, RoutedEventArgs e)
+        {
             var filepicker = new FilePicker(this);
 
-            audioFileName = filepicker.GetFile(new string[] { ".mp3", ".wav", ".flac", ".m4a" });
-            FileName.Text = audioFileName;
+            audioFileName = filepicker.GetFile(new string[] { "*" });
 
-            await Task.Run(() =>
+            if (audioFileName != null)
             {
-                using (var wasapiOut = new WasapiOut())
-                using (var audioFile = new AudioFileReader(audioFileName))
+                FileNameText.Text = audioFileName;
+                this.audioFile = new AudioFileReader(audioFileName);
+                if (wasapiOut != null)
                 {
-                    wasapiOut.Init(audioFile);
-                    wasapiOut.Play();
+                    wasapiOut.Dispose();
+                }
+                wasapiOut = new WasapiOut();
+                wasapiOut.PlaybackStopped += (sender, e) =>
+                {
+                    audioFile.Position = 0;
+                };
+                wasapiOut.Init(audioFile);
+            }
+            else
+            {
+                MsgBox("未打开文件");
+            }
+        }
 
+        private async void Play_Click(object sender, RoutedEventArgs e)
+        {
+            
+            wasapiOut.Play();
+            await Task.Run(
+                () =>
+                {
                     while (wasapiOut.PlaybackState == PlaybackState.Playing)
                     {
                         Task.Delay(100).Wait();
                     }
                 }
-            });
+            );
+        }
+
+        private void Pause_Click(object sender, RoutedEventArgs e)
+        {
+            wasapiOut.Pause();
+        }
+
+        private void Stop_Click(object sender, RoutedEventArgs e)
+        {
+            wasapiOut.Stop();
+            //audioFile.Position = 0;
+        }
+
+        private async void MsgBox(String content)
+        {
+            ContentDialog dialog = new ContentDialog();
+            dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
+            dialog.XamlRoot = Root.XamlRoot;
+            dialog.Content = content;
+            dialog.CloseButtonText = "OK";
+            var result = await dialog.ShowAsync();
         }
     }
 }

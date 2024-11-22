@@ -8,8 +8,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
-        <TextBlock x:Name="FileName" />
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="Root">
+        <Button Click="FilePick_Click" Content="选择文件"/>
+        <TextBlock x:Name="FileNameText"/>
+        <Button Click="Play_Click" Content="播放" />
+        <Button Click="Pause_Click" Content="暂停"/>
+        <Button Click="Stop_Click" Content="停止"/>
     </StackPanel>
 </Window>
