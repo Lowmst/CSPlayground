@@ -82,7 +82,7 @@ namespace playerUI3
                 wasapiOut = new WasapiOut();
                 wasapiOut.PlaybackStopped += (sender, e) =>
                 {
-                    audioFile.Position = 0; // 添加停止播放后重置音频文件位置的委托
+                    audioFile.Position = 0;
                 };
                 wasapiOut.Init(audioFile);
             }
