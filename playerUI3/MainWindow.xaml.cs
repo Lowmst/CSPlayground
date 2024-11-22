@@ -75,15 +75,18 @@ namespace playerUI3
             {
                 FileNameText.Text = audioFileName;
                 this.audioFile = new AudioFileReader(audioFileName);
+
                 if (wasapiOut != null)
                 {
                     wasapiOut.Dispose();
                 }
+
                 wasapiOut = new WasapiOut();
                 wasapiOut.PlaybackStopped += (sender, e) =>
                 {
                     audioFile.Position = 0;
                 };
+
                 wasapiOut.Init(audioFile);
             }
             else
